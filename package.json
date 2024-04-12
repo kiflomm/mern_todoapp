@@ -1,0 +1,18 @@
+{
+  "name": "todoapp",
+  "version": "1.0.0",
+  "description": "everything will be fine.It is normal to face challenges before success",
+  "scripts": {
+    "start": "concurrently --names \"server,client\" \"npm run server\" \"npm run client\"",
+    "server": "cd server && nodemon server",
+    "client": "cd client && npm run dev"
+  },
+  "keywords": [
+    "kiflom_the_brogrammer"
+  ],
+  "author": "kiflom[kiflomberihu2024@gmail.com]",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
