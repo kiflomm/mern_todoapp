@@ -14,7 +14,11 @@ mongoose.connect(dbURI)
             console.log(err)
         }) 
 app.use(bodyParser.json())
-app.get("/api", (req, res) => {;-
+app.use((req,res,next)=>{
+    console.log(req.originalUrl)
+    next()
+})
+app.get("/api", (req, res) => {
     res.send("Hello World")
 })
 app.get("/api/home",(req,res)=>{

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useRef } from 'react'
 import axios from 'axios'
 import './App.css'
 import Display from './components/Display'
@@ -9,7 +9,8 @@ const  App = () => {
         label:"",
         desc:""
     }) 
-    const [tasks,setTasks] = useState([])
+    const [tasks,setTasks] = useState([]) 
+    const called = useRef(false)
     const handleChange = (e) =>{
         setFormData({...formData,[e.target.name]:e.target.value})
     }
@@ -18,18 +19,26 @@ const  App = () => {
         try{
             const response = await axios.post('/api/tasks/add-task',formData) 
             setTasks([...tasks,formData])
+            setFormData({
+                title:"",
+                label:"",
+                desc:""
+            })
             console.log("post request successful",response.data)
         }catch(error){
             console.log("Error making post request: ",error)
-        } 
+        }  
     } 
     useEffect(()=>{
         try{
-            const getTasks = async ()=>{
+            if(!called.current){
+                const getTasks = async ()=>{
                 const response = await axios.get('/api/tasks/all') 
                 setTasks(response.data)
             }
-            getTasks()
+                getTasks() 
+                called.current = true
+            } 
         }catch(error){
             console.log(error)
         }
@@ -46,5 +55,5 @@ const  App = () => {
         </>
         )          
     }
-
+    
 export default App

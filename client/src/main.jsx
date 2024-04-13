@@ -6,5 +6,5 @@ let virtualDOM = ReactDOM.createRoot(document.getElementById('root'))
 virtualDOM.render(
   <React.StrictMode>
       <App />
-  </React.StrictMode>
+   </React.StrictMode>
 )
