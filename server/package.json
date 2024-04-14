@@ -4,7 +4,8 @@
   "description": "This is kiflom the brogrammer",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server"
+    "dev": "nodemon index",
+    "start": "node index.js"
   },
   "author": "kiflom",
   "license": "ISC",
