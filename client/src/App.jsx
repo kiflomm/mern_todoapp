@@ -17,8 +17,8 @@ const  App = () => {
     const handleSubmit  = async (e) =>{
        e.preventDefault()
         try{
-            const response = await axios.post('/api/tasks/add-task',formData) 
-            setTasks([...tasks,formData])
+            const response = await axios.post('/api/tasks/add-task',formData)  
+            getTasks()
             setFormData({
                 title:"",
                 label:"",
@@ -31,11 +31,7 @@ const  App = () => {
     } 
     useEffect(()=>{
         try{
-            if(!called.current){
-                const getTasks = async ()=>{
-                const response = await axios.get('/api/tasks/all') 
-                setTasks(response.data)
-            }
+            if(!called.current){ 
                 getTasks() 
                 called.current = true
             } 
@@ -43,15 +39,27 @@ const  App = () => {
             console.log(error)
         }
     },[])
+    const getTasks = async ()=>{
+        const response = await axios.get('/api/tasks/all') 
+        setTasks(response.data)
+    }
     return (
         <>
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} required/>
-            <input type="text" name="label" id="label" value={formData.label} onChange={handleChange} required/>
-            <input type="text" name="desc" id="desc" value={formData.desc} onChange={handleChange} required/>  
+        <div className="container">
+        <form onSubmit={handleSubmit} className='input-form'>
+            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} placeholder='type the task name here' required/> 
+            <select name="label" className ="label" value={formData.label} onChange={handleChange} required>
+                <option value="" selected disabled>Select catagory</option>
+                <option value="urgent">urgent</option>
+                <option value="important">important</option>
+                <option value="easy">easy</option>
+                <option value="hard">hard</option>
+            </select>
+            <textarea name="desc" className="desc" value={formData.desc} onChange={handleChange} placeholder='write description for your task'required></textarea>
             <button type="submit">add task</button>
         </form>
-        <Display tasks={tasks}/>
+        <Display tasks={tasks} refresher = {getTasks}/>
+        </div> 
         </>
         )          
     }

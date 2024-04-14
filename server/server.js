@@ -2,8 +2,9 @@ const express = require("express")
 const app = express()  
 const tasksRoute = require('./routes/todos')
 const mongoose = require("mongoose")  
-const bodyParser = require('body-parser') 
-const dbURI = `mongodb://0.0.0.0:27017/to-do-list`
+const bodyParser = require('body-parser')  
+require('dotenv').config()
+const dbURI = process.env.DB_CONNECTION_URL
 const PORT = 5000; 
 mongoose.connect(dbURI)
         .then((result)=>{
@@ -24,4 +25,4 @@ app.get("/api", (req, res) => {
 app.get("/api/home",(req,res)=>{
     res.send("This is home")
 })
-app.use('/api/tasks',tasksRoute)
+app.use('/api/tasks',tasksRoute) 
