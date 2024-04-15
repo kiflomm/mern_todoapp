@@ -3,7 +3,7 @@ import './Display.css'
 const Display = ({tasks,refresher}) => {  
     const handelDelete = async (id) =>{
         try {
-            const response = await axios.delete(`/api/tasks/${id}`)
+            const response = await axios.delete(`https://mern-todoapp-api-kiflom.vercel.app/api/tasks/${id}`)
             if(response.status == 200){ 
                 refresher()
             }

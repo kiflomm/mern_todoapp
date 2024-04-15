@@ -17,7 +17,7 @@ const  App = () => {
     const handleSubmit  = async (e) =>{
        e.preventDefault()
         try{
-            const response = await axios.post('/api/tasks/add-task',formData)  
+            const response = await axios.post('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/add-task',formData)  
             getTasks()
             setFormData({
                 title:"",
@@ -40,7 +40,7 @@ const  App = () => {
         }
     },[])
     const getTasks = async ()=>{
-        const response = await axios.get('/api/tasks/all') 
+        const response = await axios.get('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/all') 
         setTasks(response.data)
     }
     return (
@@ -49,7 +49,7 @@ const  App = () => {
         <form onSubmit={handleSubmit} className='input-form'>
             <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} placeholder='type the task name here' required/> 
             <select name="label" className ="label" value={formData.label} onChange={handleChange} required>
-                <option value="" selected disabled>Select catagory</option>
+                <option value="" disabled>Select catagory</option>
                 <option value="urgent">urgent</option>
                 <option value="important">important</option>
                 <option value="easy">easy</option>
