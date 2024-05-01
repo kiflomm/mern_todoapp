@@ -1,6 +1,5 @@
 import { useEffect, useState,useRef } from 'react'
-import axios from 'axios'
-import './App.css'
+import axios from 'axios' 
 import Display from './components/Display'
 
 const  App = () => {   
@@ -16,8 +15,13 @@ const  App = () => {
     }
     const handleSubmit  = async (e) =>{
        e.preventDefault()
-        try{
-            const response = await axios.post('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/add-task',formData)  
+        try{  
+
+            // for production
+            // const response = await axios.post('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/add-task',formData)   
+           
+            // for development
+            const response = await axios.post('http://localhost:500/api/tasks/add-task',formData)
             getTasks()
             setFormData({
                 title:"",
@@ -40,13 +44,17 @@ const  App = () => {
         }
     },[])
     const getTasks = async ()=>{
-        const response = await axios.get('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/all') 
+        //for production
+        // const response = await axios.get('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/all') 
+
+        //for development
+        const response = await axios.get('http://localhost:500/api/tasks/all')
         setTasks(response.data)
     }
     return (
         <>
-        <div className="container">
-        <form onSubmit={handleSubmit} className='input-form'>
+        <div className="flex justify-around m-3">
+        <form onSubmit={handleSubmit} className='input-form' >
             <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} placeholder='type the task name here' required/> 
             <select name="label" className ="label" value={formData.label} onChange={handleChange} required>
                 <option value="" disabled>Select catagory</option>

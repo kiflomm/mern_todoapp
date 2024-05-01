@@ -1,5 +1,4 @@
-import axios from 'axios'
-import './Display.css'
+import axios from 'axios' 
 const Display = ({tasks,refresher}) => {  
     const handelDelete = async (id) =>{
         try {
