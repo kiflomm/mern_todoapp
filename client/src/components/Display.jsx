@@ -1,8 +1,14 @@
 import axios from 'axios' 
-const Display = ({tasks,refresher}) => {  
+const Display = ({tasks,refresher}) => { 
+    const environment = import.meta.env.VITE_BUILD_ENV
     const handelDelete = async (id) =>{
         try {
-            const response = await axios.delete(`https://mern-todoapp-api-kiflom.vercel.app/api/tasks/${id}`)
+            const urls = {
+                production: 'https://mern-todoapp-api-kiflom.vercel.app/api/tasks/',
+                development : 'http://localhost:500/api/tasks/'
+            }
+            const reqUrl = urls[environment]
+            const response = await axios.delete(`${reqUrl}${id}`)
             if(response.status == 200){ 
                 refresher()
             }

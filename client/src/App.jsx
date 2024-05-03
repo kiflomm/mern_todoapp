@@ -1,8 +1,8 @@
 import { useEffect, useState,useRef } from 'react'
 import axios from 'axios' 
-import Display from './components/Display'
-
+import Display from './components/Display'  
 const  App = () => {   
+    const environment = import.meta.env.VITE_BUILD_ENV
     const [formData,setFormData] = useState({
         title:"",
         label:"",
@@ -15,13 +15,13 @@ const  App = () => {
     }
     const handleSubmit  = async (e) =>{
        e.preventDefault()
-        try{  
-
-            // for production
-            // const response = await axios.post('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/add-task',formData)   
-           
-            // for development
-            const response = await axios.post('http://localhost:500/api/tasks/add-task',formData)
+        try{     
+            const urls = {
+                development : 'http://localhost:500/api/tasks/add-task',
+                production : 'https://mern-todoapp-api-kiflom.vercel.app/api/tasks/add-task'
+            }
+            const reqUrl = urls[environment];
+            const response = await axios.post(reqUrl,formData)
             getTasks()
             setFormData({
                 title:"",
@@ -43,12 +43,13 @@ const  App = () => {
             console.log(error)
         }
     },[])
-    const getTasks = async ()=>{
-        //for production
-        // const response = await axios.get('https://mern-todoapp-api-kiflom.vercel.app/api/tasks/all') 
-
-        //for development
-        const response = await axios.get('http://localhost:500/api/tasks/all')
+    const getTasks = async ()=>{ 
+        const urls = {
+            development : 'http://localhost:500/api/tasks/all',
+            production : 'https://mern-todoapp-api-kiflom.vercel.app/api/tasks/all'
+        }
+        const reqUrl = urls[environment]
+        const response = await axios.get(reqUrl)
         setTasks(response.data)
     }
     return (
