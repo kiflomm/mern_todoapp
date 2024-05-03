@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies (client)
+        run: npm install --prefix client
+
+      - name: Build the client app
+        run: npm run build --prefix client  # Or your custom build command
+        working-directory: client  # Change directory for client build
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} 
+          branch: gh-pages  # Target branch for deployment
+          folder: dist  # Replace with your output directory for client build
+          single-branch: true  # Optional: Deploy only the latest commit
